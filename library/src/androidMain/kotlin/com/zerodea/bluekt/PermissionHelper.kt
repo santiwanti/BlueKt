@@ -71,7 +71,7 @@ class PermissionHelper private constructor(
         enum class PermissionType {
             // We check for the API version in the permissionState function
             @SuppressLint("InlinedApi")
-            BLUETOOTH {
+            BLUETOOTH_CLIENT {
                 override fun getPermissionsFor(version: Int): List<String> {
                     return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                         listOf(
@@ -89,6 +89,26 @@ class PermissionHelper private constructor(
                                 plus(Manifest.permission.FOREGROUND_SERVICE)
                             }
                         }
+                    }
+                }
+            },
+            BLUETOOTH_SERVER {
+                override fun getPermissionsFor(version: Int): List<String> {
+                    return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                        listOf(
+                            Manifest.permission.BLUETOOTH,
+                            Manifest.permission.BLUETOOTH_ADMIN,
+                        )
+                    } else {
+                        listOf(
+                            Manifest.permission.BLUETOOTH_ADVERTISE,
+                            Manifest.permission.BLUETOOTH_CONNECT,
+                        )
+                            .apply {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                                    plus(Manifest.permission.FOREGROUND_SERVICE)
+                                }
+                            }
                     }
                 }
             };
@@ -185,21 +205,24 @@ class PermissionHelper private constructor(
     @StringRes
     private fun getTitleResId(permissionType: PermissionType): Int {
         return when (permissionType) {
-            PermissionType.BLUETOOTH -> R.string.bluetooth_permission_title
+            PermissionType.BLUETOOTH_CLIENT -> R.string.bluetooth_permission_title
+            PermissionType.BLUETOOTH_SERVER -> R.string.bluetooth_permission_title
         }
     }
 
     @StringRes
     private fun getMessageResId(permissionType: PermissionType): Int {
         return when (permissionType) {
-            PermissionType.BLUETOOTH -> R.string.bluetooth_permission_message
+            PermissionType.BLUETOOTH_CLIENT -> R.string.bluetooth_permission_message
+            PermissionType.BLUETOOTH_SERVER -> R.string.bluetooth_permission_title
         }
     }
 
     @StringRes
     private fun getRationaleResId(permissionType: PermissionType): Int {
         return when (permissionType) {
-            PermissionType.BLUETOOTH -> R.string.bluetooth_permission_rationale
+            PermissionType.BLUETOOTH_CLIENT -> R.string.bluetooth_permission_rationale
+            PermissionType.BLUETOOTH_SERVER -> R.string.bluetooth_permission_title
         }
     }
 }

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothManager
 import android.companion.AssociationInfo
 import android.companion.AssociationRequest
 import android.companion.CompanionDeviceManager
@@ -17,55 +16,23 @@ import android.os.Build
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.merge
 
 actual class BluetoothClient(
     private val activity: ComponentActivity,
-) {
-    private val bluetoothManager = activity.getSystemService(BluetoothManager::class.java)
-    private val btAdapter = bluetoothManager.adapter
-
-    private val serialSocket = SerialSocket()
-
-    private val _bluetoothUpdates = MutableSharedFlow<BluetoothUpdate>(
-        replay = 0,
-        extraBufferCapacity = 5,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST,
-    )
-    actual val bluetoothUpdates: Flow<BluetoothUpdate>
-        get() = merge(_bluetoothUpdates, serialSocket.socketUpdates)
-
+):  BluetoothComponent(activity, ComponentType.Client){
     private val selectBluetoothDevice =
         activity.registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 it.data
                     ?.getParcelableExtra<BluetoothDevice>(CompanionDeviceManager.EXTRA_DEVICE)
                     ?.let { device ->
-                        _bluetoothUpdates.tryEmit(BluetoothUpdate.DeviceSelected)
+                        internalBluetoothUpdates.tryEmit(BluetoothUpdate.DeviceSelected)
                         connectToDevice(device)
-                    } ?: _bluetoothUpdates.tryEmit(BluetoothUpdate.NoDeviceSelected)
-            } else _bluetoothUpdates.tryEmit(BluetoothUpdate.NoDeviceSelected)
-        }
-
-    class EnableBluetoothContract : ActivityResultContract<Unit, Boolean>() {
-        override fun createIntent(context: Context, input: Unit) =
-            Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-
-        override fun parseResult(resultCode: Int, intent: Intent?) =
-            resultCode == Activity.RESULT_OK
-    }
-
-    private val enableBluetooth =
-        activity.registerForActivityResult(EnableBluetoothContract()) { enabled ->
-            if (enabled) actualStartDiscovery()
-            else _bluetoothUpdates.tryEmit(BluetoothUpdate.BluetoothNotEnabled)
+                    } ?: internalBluetoothUpdates.tryEmit(BluetoothUpdate.NoDeviceSelected)
+            } else internalBluetoothUpdates.tryEmit(BluetoothUpdate.NoDeviceSelected)
         }
 
     private val _foundBluetoothDevices = MutableStateFlow<List<BluetoothDevice>>(emptyList())
@@ -93,21 +60,8 @@ actual class BluetoothClient(
         }
     }
 
-    private val permissionHelper = PermissionHelper.registerPermission(
-        activity,
-        PermissionHelper.Companion.PermissionType.BLUETOOTH,
-        onAccepted = { enableBluetooth.launch(Unit) },
-        onRejected = { _bluetoothUpdates.tryEmit(BluetoothUpdate.PermissionsRejected(it)) },
-    )
-
     actual fun startDiscovery() {
-        if (PermissionHelper.areAllPermissionsGranted(
-                activity,
-                PermissionHelper.Companion.PermissionType.BLUETOOTH
-            )
-        ) {
-            enableBluetooth.launch(Unit)
-        } else permissionHelper.launch()
+        super.startComponent()
     }
 
     fun onDeviceSelected(device: BluetoothDevice) {
@@ -132,7 +86,7 @@ actual class BluetoothClient(
      * before we can actually start the discovery
      */
     @SuppressLint("MissingPermission")
-    private fun actualStartDiscovery() {
+    override fun onBluetoothEnabled() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val pairingRequest = AssociationRequest.Builder().build()
             val deviceManager: CompanionDeviceManager =
@@ -152,7 +106,7 @@ actual class BluetoothClient(
                         }
 
                         override fun onFailure(error: CharSequence?) {
-                            _bluetoothUpdates.tryEmit(BluetoothUpdate.NoDeviceSelected)
+                            internalBluetoothUpdates.tryEmit(BluetoothUpdate.NoDeviceSelected)
                         }
                     }
                 )
@@ -168,7 +122,7 @@ actual class BluetoothClient(
                         }
 
                         override fun onFailure(error: CharSequence?) {
-                            _bluetoothUpdates.tryEmit(BluetoothUpdate.NoDeviceSelected)
+                            internalBluetoothUpdates.tryEmit(BluetoothUpdate.NoDeviceSelected)
                         }
                     },
                     null,
@@ -187,7 +141,7 @@ actual class BluetoothClient(
                 )
             }
 
-            if (!btAdapter.startDiscovery()) _bluetoothUpdates.tryEmit(BluetoothUpdate.BluetoothNotEnabled)
+            if (btAdapter?.startDiscovery() != true) internalBluetoothUpdates.tryEmit(BluetoothUpdate.BluetoothNotEnabled)
         }
     }
 }

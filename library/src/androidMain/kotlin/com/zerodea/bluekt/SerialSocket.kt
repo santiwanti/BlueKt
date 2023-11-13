@@ -1,6 +1,7 @@
 package com.zerodea.bluekt
 
 import android.annotation.SuppressLint
+import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.BroadcastReceiver
@@ -14,7 +15,10 @@ import java.io.IOException
 import java.util.*
 import java.util.concurrent.Executors
 
-internal class SerialSocket : Runnable {
+internal class SerialSocket(
+    private val type: ComponentType,
+    private val btAdapter: BluetoothAdapter?
+) : Runnable {
 
     private val disconnectBroadcastReceiver: BroadcastReceiver
 
@@ -42,12 +46,27 @@ internal class SerialSocket : Runnable {
     /**
      * connect-success and most connect-errors are returned asynchronously to listener
      */
+    @SuppressLint("MissingPermission")
     @Throws(IOException::class)
     fun connect(context: Context, device: BluetoothDevice) {
+        if (type !is ComponentType.Client) throw IllegalStateException("only client sockets can connect")
         if (connected || socket != null)
             throw IOException("already connected")
         this.context = context
         this.device = device
+        context.registerReceiver(
+            disconnectBroadcastReceiver,
+            IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED)
+        )
+        // TODO use coroutines?
+        Executors.newSingleThreadExecutor().submit(this)
+    }
+
+    fun startServer(context: Context) {
+        if (type !is ComponentType.Server) throw IllegalStateException("only server clients can act as servers")
+        if (connected || socket != null)
+            throw IOException("already connected")
+        this.context = context
         context.registerReceiver(
             disconnectBroadcastReceiver,
             IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED)
@@ -64,11 +83,25 @@ internal class SerialSocket : Runnable {
     }
 
     @SuppressLint("MissingPermission")
-    override fun run() { // connect & read
+    override fun run() {
         try {
-            socket = device?.createRfcommSocketToServiceRecord(BLUETOOTH_SPP)
-            socket?.connect()
+            when (type) {
+                is ComponentType.Client -> {
+                    socket = device?.createRfcommSocketToServiceRecord(BLUETOOTH_SPP)
+                    socket?.connect()
+                }
+
+                is ComponentType.Server -> {
+                    val serverSocket = btAdapter?.listenUsingRfcommWithServiceRecord(type.name, BLUETOOTH_SPP)
+                    socket = serverSocket?.accept()
+                }
+            }
         } catch (e: IOException) {
+            disconnect()
+            return
+        }
+
+        if (socket == null) {
             disconnect()
             return
         }

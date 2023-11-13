@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="345b8263-e083-4a60-97e0-8a8bdcd70685" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/library_linux.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/library_linux.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/library/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library/src/androidMain/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/library/src/androidMain/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/BluetoothClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/BluetoothClient.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/PermissionHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/PermissionHelper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/SerialSocket.kt" beforeDir="false" afterPath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/SerialSocket.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,9 +38,12 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin File" />
+        <option value="Kotlin Object" />
+        <option value="valueResourceFile" />
         <option value="Kotlin Interface" />
+        <option value="Kotlin File" />
         <option value="Kotlin Class" />
+        <option value="Kotlin Enum" />
       </list>
     </option>
   </component>
@@ -97,6 +98,9 @@
       <recent name="$PROJECT_DIR$/libs" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.zerodea.bluekt" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
       <recent name="com.zerodea.bluekt" />
     </key>
   </component>
