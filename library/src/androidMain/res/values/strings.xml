@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="main_yes">yes</string>
+    <string name="main_no">no</string>
+
+
+    <!-- Permissions -->
+    <string name="button_open_settings">Open Settings</string>
+    <string name="settings_permission_message">You must edit the permissions from settings to proceed</string>
+
+    <string name="bluetooth_permission_title">Bluetooth</string>
+    <string name="bluetooth_permission_message">Bluetooth</string>
+    <string name="bluetooth_permission_rationale">Bluetooth</string>
+</resources>

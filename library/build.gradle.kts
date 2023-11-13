@@ -27,24 +27,13 @@ android {
     }
 }
 
-val frameworkName = "ClassicKtBlue"
+val frameworkName = "BlueKt"
 
 kotlin {
     androidTarget {
         publishAllLibraryVariants()
     }
-    jvm("linux") {
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
-        }
-    }
     val xcf = XCFramework(frameworkName)
-//    iosArm64 {
-//        binaries.framework {
-//            baseName = frameworkName
-//            xcf.add(this)
-//        }
-//    }
     ios {
         binaries.framework {
             baseName = frameworkName
@@ -64,6 +53,12 @@ kotlin {
         }
     }
 
+    jvm("linux") {
+        compilations.all {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -76,17 +71,19 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val androidMain by getting
-        val linuxMain by getting {
+
+        val androidMain by getting {
             dependencies {
-                implementation(files("../libs/jbluez.jar"))
+                api("androidx.appcompat:appcompat:1.6.1")
+                api("androidx.core:core-ktx:1.12.0")
             }
         }
+
         val iosMain by getting {
             dependsOn(commonMain)
         }
-//        val iosArm64Main by getting
-//        iosArm64Main.dependsOn(iosMain)
+        val iosArm64Main by getting
+        iosArm64Main.dependsOn(iosMain)
         val iosX64Main by getting
         iosX64Main.dependsOn(iosMain)
         val macosMain by creating {
@@ -97,6 +94,12 @@ kotlin {
         }
         val macosArm64Main by getting {
             dependsOn(macosMain)
+        }
+
+        val linuxMain by getting {
+            dependencies {
+                implementation(files("../libs/jbluez.jar"))
+            }
         }
     }
 }
