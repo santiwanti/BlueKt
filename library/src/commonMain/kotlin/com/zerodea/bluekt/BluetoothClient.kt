@@ -6,6 +6,7 @@ expect class BluetoothClient {
     val bluetoothUpdates: Flow<BluetoothUpdate>
 
     fun startDiscovery()
+    fun onDeviceSelected(device: BluetoothUpdate.DeviceDiscovered.BluetoothDevice)
     fun send(message: ByteArray)
     fun onReceive()
 }

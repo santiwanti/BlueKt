@@ -19,10 +19,11 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.onEach
 
 actual class BluetoothClient(
     private val activity: ComponentActivity,
-):  BluetoothComponent(activity, ComponentType.Client){
+) : BluetoothComponent(activity, ComponentType.Client) {
     private val selectBluetoothDevice =
         activity.registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
@@ -35,10 +36,7 @@ actual class BluetoothClient(
             } else internalBluetoothUpdates.tryEmit(BluetoothUpdate.NoDeviceSelected)
         }
 
-    private val _foundBluetoothDevices = MutableStateFlow<List<BluetoothDevice>>(emptyList())
-    val foundBluetoothDevices: StateFlow<List<BluetoothDevice>>
-        get() = _foundBluetoothDevices
-
+    private val foundBluetoothDevices = mutableListOf<BluetoothDevice>()
     private var btDiscoveryRetryAttempts = 0
 
     private val bluetoothConnectionReceiver = object : BroadcastReceiver() {
@@ -48,8 +46,15 @@ actual class BluetoothClient(
                 BluetoothDevice.ACTION_FOUND -> {
                     intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                         ?.let { device ->
-                            _foundBluetoothDevices.tryEmit(
-                                foundBluetoothDevices.value.plus(device).distinctBy { it.name })
+                            foundBluetoothDevices.add(device)
+                            internalBluetoothUpdates.tryEmit(
+                                BluetoothUpdate.DeviceDiscovered(
+                                    BluetoothUpdate.DeviceDiscovered.BluetoothDevice(
+                                        device.name,
+                                        device.address,
+                                    )
+                                )
+                            )
                         }
                 }
 
@@ -64,8 +69,9 @@ actual class BluetoothClient(
         super.startComponent()
     }
 
-    fun onDeviceSelected(device: BluetoothDevice) {
-        connectToDevice(device)
+    @SuppressLint("MissingPermission")
+    actual fun onDeviceSelected(device: BluetoothUpdate.DeviceDiscovered.BluetoothDevice) {
+        connectToDevice(foundBluetoothDevices.first { it.name == device.name && it.address == it.address})
     }
 
     private fun connectToDevice(device: BluetoothDevice) {
@@ -141,7 +147,9 @@ actual class BluetoothClient(
                 )
             }
 
-            if (btAdapter?.startDiscovery() != true) internalBluetoothUpdates.tryEmit(BluetoothUpdate.BluetoothNotEnabled)
+            if (btAdapter?.startDiscovery() != true) internalBluetoothUpdates.tryEmit(
+                BluetoothUpdate.BluetoothNotEnabled
+            )
         }
     }
 }
