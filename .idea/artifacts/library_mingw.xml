@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="library-mingw">
+    <output-path>$PROJECT_DIR$/library/build/libs</output-path>
+    <root id="archive" name="library-mingw.jar">
+      <element id="module-output" name="BlueKt.library.mingwMain" />
+    </root>
+  </artifact>
+</component>

@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="345b8263-e083-4a60-97e0-8a8bdcd70685" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/BluetoothClient.kt" beforeDir="false" afterPath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/BluetoothClient.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/PermissionHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/PermissionHelper.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/SerialSocket.kt" beforeDir="false" afterPath="$PROJECT_DIR$/library/src/androidMain/kotlin/com/zerodea/bluekt/SerialSocket.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/library/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/library/src/commonMain/kotlin/com/zerodea/bluekt/BluetoothUpdate.kt" beforeDir="false" afterPath="$PROJECT_DIR$/library/src/commonMain/kotlin/com/zerodea/bluekt/BluetoothUpdate.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/jbluez.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +28,12 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$/library">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand />
@@ -38,12 +46,12 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Object" />
         <option value="valueResourceFile" />
         <option value="Kotlin Interface" />
         <option value="Kotlin File" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Enum" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin Object" />
       </list>
     </option>
   </component>
@@ -57,6 +65,9 @@
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
@@ -79,23 +90,23 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/sw/IdeaProjects/BlueKt&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/sw/IdeaProjects/BlueKt/library/src/mingwX64Main/kotlin&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/library/src/mingwX64Main/kotlin" />
       <recent name="$PROJECT_DIR$/library/src/androidMain/kotlin" />
       <recent name="$PROJECT_DIR$/library/src/commonMain/kotlin" />
       <recent name="$PROJECT_DIR$/library/src/iosMain/kotlin" />
       <recent name="$PROJECT_DIR$/library/src/linuxMain/kotlin" />
-      <recent name="$PROJECT_DIR$/libs" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
       <recent name="com.zerodea.bluekt" />
@@ -115,6 +126,9 @@
       <workItem from="1699754912262" duration="4228000" />
       <workItem from="1699794325661" duration="5104000" />
       <workItem from="1699801035666" duration="9711000" />
+      <workItem from="1699909778564" duration="8007000" />
+      <workItem from="1699984442367" duration="13361000" />
+      <workItem from="1700079812842" duration="8141000" />
     </task>
     <servers />
   </component>

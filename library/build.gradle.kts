@@ -53,11 +53,13 @@ kotlin {
         }
     }
 
-    jvm("linux") {
+    jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
         }
     }
+
+    applyDefaultHierarchyTemplate()
 
     sourceSets {
         val commonMain by getting {
@@ -86,7 +88,7 @@ kotlin {
         iosArm64Main.dependsOn(iosMain)
         val iosX64Main by getting
         iosX64Main.dependsOn(iosMain)
-        val macosMain by creating {
+        val macosMain by getting {
             dependsOn(commonMain)
         }
         val macosX64Main by getting {
@@ -96,9 +98,12 @@ kotlin {
             dependsOn(macosMain)
         }
 
-        val linuxMain by getting {
+        val jvmMain by getting {
+            dependsOn(commonMain)
             dependencies {
-                implementation(files("../libs/jbluez.jar"))
+                // TODO this is for windows only. For linux we need to use the GPL library. We will probably do that in
+                //  a separate project just for linux so that the GPL library doesn't pollute this codebase
+                implementation("net.sf.bluecove:bluecove:2.1.0")
             }
         }
     }
