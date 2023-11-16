@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="345b8263-e083-4a60-97e0-8a8bdcd70685" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/library/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/library/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/library/src/commonMain/kotlin/com/zerodea/bluekt/BluetoothUpdate.kt" beforeDir="false" afterPath="$PROJECT_DIR$/library/src/commonMain/kotlin/com/zerodea/bluekt/BluetoothUpdate.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/jbluez.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +123,8 @@
       <workItem from="1699801035666" duration="9711000" />
       <workItem from="1699909778564" duration="8007000" />
       <workItem from="1699984442367" duration="13361000" />
-      <workItem from="1700079812842" duration="8141000" />
+      <workItem from="1700079812842" duration="9465000" />
+      <workItem from="1700159865016" duration="68000" />
     </task>
     <servers />
   </component>

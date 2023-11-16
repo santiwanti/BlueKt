@@ -62,9 +62,6 @@ actual class BluetoothServer(private val name: String, private val serviceUuid: 
         outputStream?.write(message)
     }
 
-    actual fun onReceive() {
-    }
-
     private fun disconnect() {
         scn?.close()
         inputStream?.close()

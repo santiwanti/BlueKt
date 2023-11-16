@@ -7,5 +7,4 @@ expect class BluetoothServer {
 
     fun startServer()
     fun send(message: ByteArray)
-    fun onReceive()
 }

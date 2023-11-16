@@ -118,9 +118,6 @@ actual class BluetoothClient {
         outputStream?.write(message)
     }
 
-    actual fun onReceive() {
-    }
-
     private fun disconnect() {
         scn?.close()
         inputStream?.close()

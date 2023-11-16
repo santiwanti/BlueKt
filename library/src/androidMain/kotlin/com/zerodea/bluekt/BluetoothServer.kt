@@ -6,7 +6,7 @@ actual class BluetoothServer(private val activity: ComponentActivity, name: Stri
     BluetoothComponent(activity, ComponentType.Server(name)) {
 
     override fun onBluetoothEnabled() {
-       serialSocket.startServer(activity)
+        serialSocket.startServer(activity)
     }
 
     actual fun startServer() {
@@ -15,8 +15,5 @@ actual class BluetoothServer(private val activity: ComponentActivity, name: Stri
 
     actual fun send(message: ByteArray) {
         serialSocket.write(message)
-    }
-
-    actual fun onReceive() {
     }
 }

@@ -82,10 +82,6 @@ actual class BluetoothClient(
         serialSocket.write(message)
     }
 
-    actual fun onReceive() {
-
-    }
-
     /**
      * This function actually starts the discovery, the public [startDiscovery] function has to
      * handle requesting the permissions if they are missing and enabling bluetooth if it is disabled
